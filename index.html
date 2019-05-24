@@ -1,0 +1,213 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<style>
+
+		:root {
+			font-family: Helvetica;
+			font-size: 1.2em;
+		}
+
+		@media( min-width:600px) {
+			:root {
+				font-size: 1.5em;
+			}
+		}
+
+		header {
+			margin-bottom: 0;
+		}
+
+		body {
+			margin-left: 1em;
+		}
+
+		.header-comment {
+			font-size: 0.7rem;
+			font-style: italic;
+			color: gray;
+			margin: 0;
+			padding: 0;
+		}
+
+		.responsive-width {
+			max-width: 250px;
+		}
+
+		@media (min-width: 500px) {
+			.responsive-width {
+				max-width: 400px;
+			}			
+		}
+
+		h1 {
+			margin-bottom: 0.3em;
+			font-size: 1.3rem;
+		}
+
+		h3 {
+			margin: 0;
+			font-size: 0.7rem;
+			display: inline-block;
+		}
+
+		.container {
+			position: relative;
+		}
+
+
+		.func-list {
+			list-style: none;
+			vertical-align: top;
+			padding-left: 0;
+			margin-top: 0;
+		}
+
+		.func-list > div {
+			border: 1px solid black;
+			border-radius: 0.3em;
+			padding: 0.3em;
+			color: #0000aa;
+			margin-left: 0;
+			margin-top: 0.5em;
+			position: relative;
+		}
+
+		.func-value {
+			color: initial;
+			padding-left: 1em;
+			font-size: 0.8rem;
+			display: inline-block;
+			position: absolute;
+			right: 0.5em;
+		}
+
+		.but {
+			background-color: #F9ED32;
+			border-radius: 0.2em;
+			font-size: 1.3rem;
+			padding: 0.5em;
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			transform: translate(-50%, 150%);
+
+			outline: 0 !important;
+			cursor: pointer;
+		}
+
+		.but:hover {
+			box-shadow: 1px 1px #aaaaaa;
+		}
+
+		.but:active {
+			background-color: #C1B32D;
+		}
+
+	</style>
+</head>
+<body>
+
+	<div class="container responsive-width">
+
+		<header>
+			<h1>Random structure generator</h1>
+			<div class="header-comment">Roger Treece Musical Fluency Exercise<br>Random Target Structure Generator</div>
+		</header>
+
+		<div class="func-list">
+			<div>
+				<h3>Metryx</h3>
+				<div id="metryx-value" class="func-value">2-3</div>
+			</div>
+			<div>
+				<h3>Tempo (50-150 bpm)</h3>
+				<div id="tempo-value" class="func-value">100</div>
+			</div>
+			<div>
+				<h3>Mode</h3>
+				<div id="mode-value" class="func-value">Phrygian</div>
+			</div>
+			<div>
+				<h3>Anchor (down from Motor)</h3>
+				<div id="anchor-value" class="func-value">mi3/ma3</div>
+			</div>
+			<div>
+				<h3>Melodic Shape Structure</h3>
+				<div id="shape-value" class="func-value">Period</div>
+			</div>
+		</div>
+
+		<button class="but" id="buttRandomize">RANDOMIZE</button>
+	</div>
+
+
+	<script>
+
+		const RTSG_PARAMS = {
+			'metryx' : 
+				['3 - 2', '3 - 3', '3 - 4', '4 - 2', '4 - 3',
+				'4 - 4', '5 - 2', '5 - 3', '5 - 4', '6 - 2', '7 - 2'],
+			'mode': 
+				['Ionian', 'Dorian', 'Phrygian', 'Lydian', 'Mixolydian', 'Aeolian'],
+			'anchor' : ['mi3/ma3', 'p5'],
+			'shape' : ['Sequence', 'Period', 'Question/Answer' ]
+		}
+
+		const RandomStructureGenerator = {
+
+			RandomRangeValue: class {
+				constructor(name, min, max) {
+					this.name = name;
+					this.min = min;
+					this.max = max;
+				}
+
+				randomValue() {
+					var rand = this.min + Math.random() * (this.max + 1 - this.min);
+				    rand = Math.floor(rand);
+				    return rand;
+				}
+			},
+
+			RandomAlternativesValue: class {
+				constructor( name, arr ) {
+					this.name = name;
+					this.alternatives = arr;
+					this.randVal = new RandomStructureGenerator.RandomRangeValue('', 0, this.alternatives.length-1);
+				}
+
+				randomValue() {
+					return this.alternatives[ this.randVal.randomValue() ];
+				}
+			},
+
+			values: [],
+
+			init() {
+				for (var key in RTSG_PARAMS) {
+				    if (RTSG_PARAMS.hasOwnProperty(key)) {
+				        this.values.push( new RandomStructureGenerator.RandomAlternativesValue(key, RTSG_PARAMS[key]));
+				    }
+				}
+				this.values.push( new RandomStructureGenerator.RandomRangeValue('tempo', 50, 150) );
+			},
+
+			generateRandomValues() {
+				this.values.forEach( val => {
+					document.querySelector( `#${val.name}-value`).innerHTML = val.randomValue();
+				});
+			}
+		}
+
+		RandomStructureGenerator.init();
+		RandomStructureGenerator.generateRandomValues();
+
+		document.querySelector("#buttRandomize").addEventListener( "click", function() {
+			RandomStructureGenerator.generateRandomValues();
+		});
+
+	</script>
+	
+</body>
+</html>
