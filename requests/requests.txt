@@ -1,0 +1,23 @@
+Requests for the functionality:
+
+MAY 27:
+-------------------------------
+Hi Alex
+
+I got a reaction from Roger Treece. He likes the Randomizer and wants to use it, and sends you best regards and thanks.
+
+He asked for a little change:
+- coordinate the Anchor options to the Mode options, 
+- so that the three “minor” modes (dorian, phrygian and aeolian) would only bring up mi3 or p5 as options in the Anchor window 
+- and the three “major” modes (ionian, lydian and mixolydian) would bring up only the ma3 and p5 as options in the Anchor window.
+
+In other words:
+- if the mode is dorian, phrygian and aeolian instead of mi3/ma3 should only appear mi3 in the anchor window
+- if the mode is ionian, lydian and mixolydian instead of mi3/ma2 should nly appear ma3 in the anchor window
+- the anchor option p5 is ok.
+
+Could you do that? (if it is not to much work...)
+That would be great.
+
+Hugs
+Mattias

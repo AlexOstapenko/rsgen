@@ -1,0 +1,102 @@
+:root {
+	font-family: Helvetica;
+	font-size: 1.2em;
+	--func-name-color: #051C5E;
+}
+
+@media( min-width:600px) {
+	:root {
+		font-size: 1.5em;
+	}
+}
+
+header {
+	margin-bottom: 0;
+}
+
+body {
+	margin-left: 1em;
+}
+
+.header-comment {
+	font-size: 0.7rem;
+	font-style: italic;
+	color: gray;
+	margin: 0;
+	padding: 0;
+}
+
+.responsive-width {
+	max-width: 250px;
+}
+
+@media (min-width: 500px) {
+	.responsive-width {
+		max-width: 400px;
+	}			
+}
+
+h1 {
+	margin-bottom: 0.3em;
+	font-size: 1.3rem;
+}
+
+h3 {
+	margin: 0;
+	font-size: 0.7rem;
+	display: inline-block;
+}
+
+.container {
+	position: relative;
+}
+
+
+.func-list {
+	list-style: none;
+	vertical-align: top;
+	padding-left: 0;
+	margin-top: 0;
+}
+
+.func-list > div {
+	border: 1px solid black;
+	border-radius: 0.3em;
+	padding: 0.3em;
+	color: var( --func-name-color );
+	margin-left: 0;
+	margin-top: 0.5em;
+	position: relative;
+}
+
+.func-value {
+	color: initial;
+	padding-left: 1em;
+	font-size: 0.8rem;
+	display: inline-block;
+	position: absolute;
+	right: 0.5em;
+}
+
+.but {
+	color: white;
+	background-color: #7284B7;
+	border-radius: 0.2em;
+	font-size: 1.3rem;
+	padding: 0.5em;
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translate(-50%, 150%);
+
+	outline: 0 !important;
+	cursor: pointer;
+}
+
+.but:hover {
+	box-shadow: 1px 1px #aaaaaa;
+}
+
+.but:active {
+	background-color: #B1BEE5;
+}
