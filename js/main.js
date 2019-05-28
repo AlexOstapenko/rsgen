@@ -15,7 +15,7 @@ const RTSG_PARAMS = [
 	{
 		name : 'anchor',
 		type: 'slave',
-		masterValueName: 'mode',
+		masterName: 'mode',
 		cases: [
 			{
 				values: ['Dorian', 'Phrygian', 'Aeolian'],
@@ -40,6 +40,11 @@ const RandomStructureGenerator = {
 	// contains all random value objects
 	values: [],
 
+
+	randomInt( min, max ) {
+		return Math.floor( min + Math.random() * (max + 1 - min) );
+	},
+
 	// Random value from a range
 	RandomRangeValue: class {
 		constructor(name, min, max) {
@@ -49,9 +54,7 @@ const RandomStructureGenerator = {
 		}
 
 		randomValue() {
-			var rand = this.min + Math.random() * (this.max + 1 - this.min);
-		    rand = Math.floor(rand);
-		    return rand;
+			return RandomStructureGenerator.randomInt( this.min, this.max );
 		}
 	},
 
@@ -70,22 +73,21 @@ const RandomStructureGenerator = {
 
 	// Depends on some other parameter's value
 	RandomAlternativesValueSlave : class {
-		constructor( masterValueName, name, cases ) {
-			this.masterValueName = masterValueName;
+		constructor( masterName, name, cases ) {
+			this.masterName = masterName;
 			this.name = name;
 			this.cases = cases;
 		}
 
 		randomValue() {
-			const masterValue = RandomStructureGenerator.DOMHelper.getDocElementValue( this.masterValueName );
+			const masterValue = RandomStructureGenerator.DOMHelper.getDocElementValue( this.masterName );
 			
 			let result = null;
 			for( let i=0; i< this.cases.length; i++) {
 				let theCase = this.cases[i];
 				if ( theCase.values.includes( masterValue ) )
 				{
-					let randIdx = 
-						new RandomStructureGenerator.RandomRangeValue('', 0, theCase.options.length-1).randomValue();
+					let randIdx = RandomStructureGenerator.randomInt( 0, theCase.options.length-1 );
 					result = theCase.options[randIdx];
 					break;
 				}
@@ -120,7 +122,7 @@ const RandomStructureGenerator = {
 					break;
 				case 'slave' : 
 					valueObj = new RandomStructureGenerator.RandomAlternativesValueSlave( 
-							param.masterValueName, param.name, param.cases );
+							param.masterName, param.name, param.cases );
 					break;
 				default:
 					valueObj = new RandomStructureGenerator.RandomAlternativesValue( param.name, param.options )
@@ -131,7 +133,7 @@ const RandomStructureGenerator = {
 		});
 	},
 
-	// The order of values is important: some values are slaves of another
+	// The order of values is important: some values are slaves of anothers
 	generateRandomValues() {
 		this.values.forEach( val => {
 			RandomStructureGenerator.DOMHelper.setDocElementValue( val.name, val.randomValue() );

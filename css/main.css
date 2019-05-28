@@ -49,6 +49,8 @@ h3 {
 
 .container {
 	position: relative;
+	margin: 0 auto;
+	display: block;
 }
 
 
